@@ -1,13 +1,23 @@
 import React, { Component } from "react";
-
+import updateShelf from "./Home";
 import PropTypes from "prop-types";
 
 export class Book extends Component {
+  state;
   setBackgroundImage(book) {
     if (book.imageLinks) {
       return `${book.imageLinks.thumbnail}`;
     } else {
       return `https://images.techhive.com/images/article/2016/04/error-thinkstock-100655502-large.jpg`;
+    }
+  }
+
+  checkshelf(b) {
+    const book = this.props.onShelf.find((book) => book.id === b.id);
+    if (book) {
+      return book.shelf;
+    } else {
+      return "none";
     }
   }
 
@@ -19,6 +29,7 @@ export class Book extends Component {
   render() {
     const newShelf = (shelf) => {
       this.props.updateShelf(this.props.book, shelf);
+      this.setState([]);
     };
 
     return (
@@ -34,12 +45,14 @@ export class Book extends Component {
               )})`,
             }}
           />
-          <div className="book-shelf-changer">
+          <div className="book-shelf-changer" v>
             <select
-              value={this.props.book.shelf}
-              onChange={(e) => {
-                newShelf(e.target.value);
-              }}
+              value={
+                this.props.IsResult
+                  ? this.checkshelf(this.props.book)
+                  : this.props.book.shelf
+              }
+              onChange={(e) => newShelf(e.target.value)}
             >
               <option value="move" disabled>
                 Move to...
