@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { get, getAll } from "./BooksAPI";
+import { get, getAll, update } from "./BooksAPI";
 import Shelf from "./shelf";
 import { Link } from "react-router-dom";
 
@@ -10,11 +10,23 @@ export class Home extends Component {
   async componentDidMount() {
     try {
       const books = await getAll();
-      this.setState.onShelf = books;
+      console.log(books);
+      this.setState({ onShelf: books });
     } catch {
       console.log("error");
     }
   }
+
+  updateShelf = (book, shelf) => {
+    if (this.state.onShelf) {
+      update(book, shelf).then(() => {
+        book.shelf = shelf;
+        this.setState((state) => ({
+          books: state.onShelf.filter((b) => b.id !== book.id).concat([book]),
+        }));
+      });
+    }
+  };
 
   render() {
     return (
@@ -23,9 +35,24 @@ export class Home extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-          <Shelf shelfName="Currently reading" />
-          <Shelf shelfName="Want to read" />
-          <Shelf shelfName="Read" />
+          <Shelf
+            shelfCode="currentlyReading"
+            shelfName="Currently Reading"
+            booksOnShelf={this.state.onShelf}
+            updateShelf={this.updateShelf}
+          />
+          <Shelf
+            shelfName="Want To Read"
+            booksOnShelf={this.state.onShelf}
+            shelfCode="wantToRead"
+            updateShelf={this.updateShelf}
+          />
+          <Shelf
+            shelfName="Read"
+            booksOnShelf={this.state.onShelf}
+            updateShelf={this.updateShelf}
+            shelfCode="read"
+          />
         </div>
         <div className="open-search">
           <Link to="/search">

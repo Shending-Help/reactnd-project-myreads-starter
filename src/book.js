@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import updateShelf from "./Home";
+import PropTypes from "prop-types";
 
 export class Book extends Component {
   setBackgroundImage(book) {
@@ -9,7 +11,16 @@ export class Book extends Component {
     }
   }
 
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    updateShelf: PropTypes.func.isRequired,
+  };
+
   render() {
+    const newShelf = (shelf) => {
+      this.props.updateShelf(this.props.book, shelf);
+    };
+
     return (
       <div className="book">
         <div className="book-top">
@@ -23,7 +34,12 @@ export class Book extends Component {
               )})`,
             }}
           />
-          <div className="book-shelf-changer">
+          <div
+            className="book-shelf-changer"
+            defaultValue={this.props.defaultValue}
+            value={this.props.book.shelf}
+            onChange={(e) => newShelf(e.target.value)}
+          >
             <select>
               <option value="move" disabled>
                 Move to...
