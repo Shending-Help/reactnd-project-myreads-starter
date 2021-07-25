@@ -16,14 +16,26 @@ export class Search extends Component {
     updateShelf: PropTypes.func.isRequired,
   };
 
-  setQuery(query) {
-    this.setState(query ? { queries: query } : { queries: "" });
-    search(query).then((data) => {
-      if (data) {
-        this.setState(data.error ? { results: [] } : { results: data });
-      }
-    });
-  }
+  setQuery = (query) => {
+    this.setState({ queries: query });
+    if (query === "") {
+      this.setState({ results: [] });
+    }
+    if (query) {
+      search(query).then((data) => {
+        if (data.error) {
+          this.setState({ results: [] });
+        } else {
+          data
+            ? this.setState({ results: data })
+            : this.setState({ results: [] });
+          data ? console.log(data) : this.setState({ results: [] });
+        }
+      });
+    } else {
+      this.setState({ results: [] });
+    }
+  };
   /* updateShelf = (book, shelf) => {
     if (this.state.results) {
       update(book, shelf).then(() => {
