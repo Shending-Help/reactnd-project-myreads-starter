@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import updateShelf from "./Home";
+
 import PropTypes from "prop-types";
 
 export class Book extends Component {
@@ -34,13 +34,13 @@ export class Book extends Component {
               )})`,
             }}
           />
-          <div
-            className="book-shelf-changer"
-            defaultValue={this.props.defaultValue}
-            value={this.props.book.shelf}
-            onChange={(e) => newShelf(e.target.value)}
-          >
-            <select>
+          <div className="book-shelf-changer">
+            <select
+              value={this.props.book.shelf}
+              onChange={(e) => {
+                newShelf(e.target.value);
+              }}
+            >
               <option value="move" disabled>
                 Move to...
               </option>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { get, getAll, update } from "./BooksAPI";
+import { getAll, update } from "./BooksAPI";
 import Shelf from "./shelf";
 import { Link } from "react-router-dom";
 
