@@ -19,11 +19,10 @@ export class Shelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {shelfAssigner.map((b) => (
-              <li>
+              <li key={b.id}>
                 <Book
                   book={b}
                   updateShelf={this.props.updateShelf}
-                  key={b.id}
                   IsResult={false}
                 />
               </li>
