@@ -45,7 +45,7 @@ export class Book extends Component {
               )})`,
             }}
           />
-          <div className="book-shelf-changer" v>
+          <div className="book-shelf-changer">
             <select
               value={
                 this.props.IsResult
